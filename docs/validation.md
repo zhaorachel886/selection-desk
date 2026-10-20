@@ -6,7 +6,7 @@
 
 | 检查 | 状态 | 证据 |
 | --- | --- | --- |
-| 依赖安装 | 通过 | 本机 npm install 成功，已有锁文件；干净环境 npm ci 仍待 GitHub CI 或新机器验收 |
+| 依赖安装 | 通过 | 本机安装及 GitHub Windows runner 的 npm ci 均通过；不代表无开发工具的安装验收 |
 | `npm test` | 通过 | 2026-10-20，22 个 Vitest 用例通过 |
 | `npm run typecheck` | 通过 | 2026-10-20，本机检查通过 |
 | `npm run build` | 通过 | 2026-10-20，本机构建通过 |
@@ -14,7 +14,7 @@
 | 打包程序集成检查 | 通过 | win-unpacked 实际启动，设置加密、受限 IPC、导出 stdio 握手、关闭释放和重新打开均通过 |
 | 授权插入设置回归检查 | 通过 | 隔离 Electron 行为测试中，未保存语言和密钥保留；密钥未随授权动作传出 |
 
-以上结果来自本机执行记录，不代表 GitHub CI 已运行。运行时依赖 `npm audit` 为 0 个已知漏洞；许可证清单包含 98 个运行时包，声明为 MIT/BSD/ISC，未发现未知声明。该检查不代替后续漏洞监测或完整法律审查。
+2026-10-20，[GitHub Windows 自动检查](https://github.com/zhaorachel886/selection-desk/actions/runs/39354630944)全部通过，包括 npm ci、22 个用例、类型检查、构建、界面行为与桌面集成检查、安装包与便携包生成。运行时依赖 `npm audit` 为 0 个已知漏洞；许可证清单包含 98 个运行时包，声明为 MIT/BSD/ISC，未发现未知声明。该检查不代替后续漏洞监测或完整法律审查。
 
 ## 本机集成证据（2026-10-20）
 
@@ -30,7 +30,7 @@
 
 包内核查：app.asar 包含桥接和第三方声明，主程序与当前构建一致，未包含个人需求文档、.local、preferences.enc 或 .env。安装包签名状态为 NotSigned。测试不等同于在干净 Windows 中完成安装和卸载。
 
-GitHub 插件已确认公开仓库 zhaorachel886/selection-desk 存在且具备写入权限。源码上传、远程 Windows 检查与 prerelease 发布结果待本次执行后核实；本机检查不等同于远程 CI 通过。
+公开仓库 [zhaorachel886/selection-desk](https://github.com/zhaorachel886/selection-desk) 已上传源码；发布提交为 `c2d632e3920ea79e0670e57c30a975cf240b8cc4`。[0.1.0-alpha.1](https://github.com/zhaorachel886/selection-desk/releases/tag/v0.1.0-alpha.1) 的 prerelease 状态和四个公开资产均已核实。下载的 SHA256SUMS.txt 中，安装包、便携包和源码包摘要与 GitHub 返回的资产 SHA-256 一致。校验文件另含 blockmap 摘要，该辅助文件位于 CI 构建产物中。
 
 ## 真实应用矩阵
 

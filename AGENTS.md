@@ -7,6 +7,7 @@ Windows 11 x64 优先的划词浮窗工具：选区 → 翻译或自定义问答
 - 已通过 GitHub 连接确认账号用户名为 `zhaorachel886`。
 - 仓库为 https://github.com/zhaorachel886/selection-desk，公开仓库。GitHub 插件可上传源码，无需依赖本机 CLI 登录。
 - main 上的新版本通过全部 Windows 检查后，由 GitHub Actions 发布 prerelease；已有同版本发布保持原状，不覆盖资产。PR 只检查和上传临时构建产物。
+- 0.1.0-alpha.1 已公开发布，Windows CI 与资产摘要核对通过；真实桌面兼容性和稳定版验收仍待完成。
 - 不将私人登录邮箱、密码、令牌或设备授权码写入源码和文档；提交身份优先使用 GitHub 提供的 noreply 地址。
 
 ## 确认决策
