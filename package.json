@@ -1,0 +1,74 @@
+{
+  "name": "selection-desk",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "description": "Local-first selection overlay with agent connectors",
+  "author": "Selection Desk contributors",
+  "license": "MIT",
+  "main": "dist/main/index.cjs",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "build": "node scripts/build.mjs",
+    "start": "npm run build && electron .",
+    "package": "npm run build && electron-builder --win nsis portable --x64",
+    "probe": "node scripts/probe.cjs",
+    "smoke": "node scripts/smoke.mjs",
+    "notices": "node scripts/notices.mjs",
+    "performance": "node scripts/performance.mjs",
+    "test:ui": "node tests/renderer-consent.mjs && node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "selection-hook": "2.1.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "electron": "44.9.0",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.25.10",
+    "playwright": "^1.56.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "build": {
+    "appId": "io.selectiondesk.desktop",
+    "productName": "Selection Desk",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
+    ],
+    "electronDist": "node_modules/electron/dist",
+    "asarUnpack": [
+      "node_modules/selection-hook/**/*"
+    ],
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "artifactName": "Selection-Desk-${version}-${arch}-setup.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "portable": {
+      "artifactName": "Selection-Desk-${version}-${arch}-portable.${ext}"
+    },
+    "artifactName": "Selection-Desk-${version}-${arch}.${ext}"
+  }
+}

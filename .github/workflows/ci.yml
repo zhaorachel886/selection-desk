@@ -1,0 +1,84 @@
+name: Windows checks and alpha release
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        shell: pwsh
+        run: |
+          $taskVersion = (Get-Content -LiteralPath package.json -Raw | ConvertFrom-Json).version
+          "tag=v$taskVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run test:ui
+      - run: npm run package -- --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Export source and checksums
+        shell: pwsh
+        run: |
+          & ./scripts/export-source.ps1
+          $taskHashes = Get-ChildItem -LiteralPath release -File | Where-Object { $_.Name -match '\.(exe|zip|blockmap)$' } | Sort-Object Name | ForEach-Object {
+            $taskHash = Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256
+            "$($taskHash.Hash.ToLower())  $($_.Name)"
+          }
+          Set-Content -LiteralPath release/SHA256SUMS.txt -Value $taskHashes -Encoding utf8
+      - uses: actions/upload-artifact@v4
+        with:
+          name: selection-desk-windows-x64-alpha
+          path: |
+            release/*.exe
+            release/*.blockmap
+            release/*-source.zip
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+  release-alpha:
+    needs: windows
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: alpha-release-${{ needs.windows.outputs.tag }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: selection-desk-windows-x64-alpha
+          path: release
+      - name: Publish a new alpha version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.windows.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release exists; keeping its assets unchanged."
+            exit 0
+          fi
+          gh release create "$RELEASE_TAG" release/*.exe release/*-source.zip release/SHA256SUMS.txt \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Selection Desk $RELEASE_TAG" --prerelease \
+            --notes-file "docs/release-notes/${RELEASE_TAG#v}.md"

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+release/
+.cache/
+.local/
+*.log
+.env*
+coverage/
+划词助手-需求与工具调研.md
+selection-desk-*.json
+selection-desk-*.toml

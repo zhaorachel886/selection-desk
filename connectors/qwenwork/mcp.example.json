@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "selection_desk": {
+      "type": "stdio",
+      "command": "C:\\path\\to\\Selection Desk.exe",
+      "args": ["C:\\path\\to\\resources\\app.asar\\dist\\bridge\\cli.cjs"],
+      "env": {
+        "ELECTRON_RUN_AS_NODE": "1",
+        "SELECTION_DESK_TOKEN": "<CLIENT_TOKEN>"
+      }
+    }
+  }
+}
