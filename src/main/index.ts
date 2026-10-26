@@ -1,20 +1,17 @@
-import { app, dialog, safeStorage } from 'electron';
-import { resolve, isAbsolute } from 'node:path';
-import { Preferences } from './preferences';
+import { app, dialog } from 'electron';
+import { isAbsolute, resolve } from 'node:path';
+import { mkdirSync } from 'node:fs';
 import { launchDesktop } from './desktop';
 
-app.setName('Selection Desk');
-// Text-only overlays do not need a hardware GPU context kept alive in the tray.
+// Keep the existing profile directory when changing the display name.
+const dataDir=process.env.SELECTION_DESK_DATA_DIR;
+const profileDir=dataDir&&isAbsolute(dataDir)?resolve(dataDir):resolve(app.getPath('appData'),'划词助手');
+mkdirSync(profileDir,{recursive:true});
+app.setPath('userData',profileDir);
+app.setName('拾句');
 app.disableHardwareAcceleration();
-if (process.env.SELECTION_DESK_DATA_DIR && isAbsolute(process.env.SELECTION_DESK_DATA_DIR)) app.setPath('userData', resolve(process.env.SELECTION_DESK_DATA_DIR));
 app.setAppUserModelId('io.selectiondesk.desktop');
-if (!app.requestSingleInstanceLock()) app.quit();
-else {
-  app.whenReady().then(async () => {
-    const prefs = new Preferences(app.getPath('userData'), safeStorage);
-    await launchDesktop(prefs);
-  }).catch(error => {
-    dialog.showErrorBox('Selection Desk 无法启动', error instanceof Error ? error.message : '请检查设置和本机端口。');
-    app.exit(1);
-  });
-}
+if(!app.requestSingleInstanceLock())app.quit();
+else app.whenReady().then(launchDesktop).catch(error=>{
+  dialog.showErrorBox('拾句启动失败',error instanceof Error?error.message:'请重新启动应用。');app.exit(1);
+});

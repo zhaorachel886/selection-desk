@@ -1,0 +1,1794 @@
+{
+  "passed": 97,
+  "checks": [
+    {
+      "name": "1340x800 ask page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 755
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x800 ask windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 755
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x800 toolbar fits",
+      "passed": true,
+      "evidence": {
+        "x": 225,
+        "y": 362.5625,
+        "width": 210.59375,
+        "height": 38
+      }
+    },
+    {
+      "name": "1340x800 overlay containers do not scroll",
+      "passed": true
+    },
+    {
+      "name": "1340x800 history page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 755
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 367,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "1340x800 history windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 755
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 367,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "1340x800 single line history",
+      "passed": true
+    },
+    {
+      "name": "1340x800 dual page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 755
+        },
+        "windows": [
+          {
+            "left": 205,
+            "top": 172,
+            "right": 585,
+            "bottom": 448.78125,
+            "width": 380,
+            "height": 276.78125
+          },
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 218,
+            "top": 393.78125,
+            "right": 572,
+            "bottom": 435.78125,
+            "width": 354,
+            "height": 42
+          },
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x800 dual windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 755
+        },
+        "windows": [
+          {
+            "left": 205,
+            "top": 172,
+            "right": 585,
+            "bottom": 448.78125,
+            "width": 380,
+            "height": 276.78125
+          },
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 218,
+            "top": 393.78125,
+            "right": 572,
+            "bottom": 435.78125,
+            "width": 354,
+            "height": 42
+          },
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x800 two windows",
+      "passed": true
+    },
+    {
+      "name": "1340x800 dual windows do not overlap",
+      "passed": true,
+      "evidence": [
+        {
+          "x": 205,
+          "y": 172,
+          "right": 585,
+          "bottom": 448.78125
+        },
+        {
+          "x": 931,
+          "y": 172,
+          "right": 1311,
+          "bottom": 372
+        }
+      ]
+    },
+    {
+      "name": "1340x800 menu option can be hit",
+      "passed": true,
+      "evidence": {
+        "x": 305,
+        "y": 282,
+        "width": 118,
+        "height": 32
+      }
+    },
+    {
+      "name": "1340x800 Escape retains windows",
+      "passed": true
+    },
+    {
+      "name": "1340x800 settings fits",
+      "passed": true,
+      "evidence": {
+        "x": 470,
+        "y": 164.25,
+        "width": 400,
+        "height": 471.5
+      }
+    },
+    {
+      "name": "1340x595 ask page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 550
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x595 ask windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 550
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x595 toolbar fits",
+      "passed": true,
+      "evidence": {
+        "x": 225,
+        "y": 362.5625,
+        "width": 210.59375,
+        "height": 38
+      }
+    },
+    {
+      "name": "1340x595 overlay containers do not scroll",
+      "passed": true
+    },
+    {
+      "name": "1340x595 history page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 550
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 367,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "1340x595 history windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 550
+        },
+        "windows": [
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 367,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "1340x595 single line history",
+      "passed": true
+    },
+    {
+      "name": "1340x595 dual page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 550
+        },
+        "windows": [
+          {
+            "left": 205,
+            "top": 172,
+            "right": 585,
+            "bottom": 448.78125,
+            "width": 380,
+            "height": 276.78125
+          },
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 218,
+            "top": 393.78125,
+            "right": 572,
+            "bottom": 435.78125,
+            "width": 354,
+            "height": 42
+          },
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x595 dual windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 193,
+          "top": 124,
+          "right": 1323,
+          "bottom": 550
+        },
+        "windows": [
+          {
+            "left": 205,
+            "top": 172,
+            "right": 585,
+            "bottom": 448.78125,
+            "width": 380,
+            "height": 276.78125
+          },
+          {
+            "left": 931,
+            "top": 172,
+            "right": 1311,
+            "bottom": 372,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 218,
+            "top": 393.78125,
+            "right": 572,
+            "bottom": 435.78125,
+            "width": 354,
+            "height": 42
+          },
+          {
+            "left": 944,
+            "top": 317,
+            "right": 1298,
+            "bottom": 359,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1340x595 two windows",
+      "passed": true
+    },
+    {
+      "name": "1340x595 dual windows do not overlap",
+      "passed": true,
+      "evidence": [
+        {
+          "x": 205,
+          "y": 172,
+          "right": 585,
+          "bottom": 448.78125
+        },
+        {
+          "x": 931,
+          "y": 172,
+          "right": 1311,
+          "bottom": 372
+        }
+      ]
+    },
+    {
+      "name": "1340x595 menu option can be hit",
+      "passed": true,
+      "evidence": {
+        "x": 305,
+        "y": 282,
+        "width": 118,
+        "height": 32
+      }
+    },
+    {
+      "name": "1340x595 Escape retains windows",
+      "passed": true
+    },
+    {
+      "name": "1340x595 settings fits",
+      "passed": true,
+      "evidence": {
+        "x": 470,
+        "y": 61.75,
+        "width": 400,
+        "height": 471.5
+      }
+    },
+    {
+      "name": "1000x595 ask page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 13,
+          "top": 169,
+          "right": 987,
+          "bottom": 558
+        },
+        "windows": [
+          {
+            "left": 595,
+            "top": 217,
+            "right": 975,
+            "bottom": 417,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 608,
+            "top": 362,
+            "right": 962,
+            "bottom": 404,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1000x595 ask windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 13,
+          "top": 169,
+          "right": 987,
+          "bottom": 558
+        },
+        "windows": [
+          {
+            "left": 595,
+            "top": 217,
+            "right": 975,
+            "bottom": 417,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 608,
+            "top": 362,
+            "right": 962,
+            "bottom": 404,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1000x595 toolbar fits",
+      "passed": true,
+      "evidence": {
+        "x": 45,
+        "y": 407.5625,
+        "width": 210.59375,
+        "height": 38
+      }
+    },
+    {
+      "name": "1000x595 overlay containers do not scroll",
+      "passed": true
+    },
+    {
+      "name": "1000x595 history page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 13,
+          "top": 169,
+          "right": 987,
+          "bottom": 558
+        },
+        "windows": [
+          {
+            "left": 595,
+            "top": 217,
+            "right": 975,
+            "bottom": 412,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "1000x595 history windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 13,
+          "top": 169,
+          "right": 987,
+          "bottom": 558
+        },
+        "windows": [
+          {
+            "left": 595,
+            "top": 217,
+            "right": 975,
+            "bottom": 412,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "1000x595 single line history",
+      "passed": true
+    },
+    {
+      "name": "1000x595 dual page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 13,
+          "top": 169,
+          "right": 987,
+          "bottom": 558
+        },
+        "windows": [
+          {
+            "left": 25,
+            "top": 217,
+            "right": 405,
+            "bottom": 493.78125,
+            "width": 380,
+            "height": 276.78125
+          },
+          {
+            "left": 595,
+            "top": 217,
+            "right": 975,
+            "bottom": 417,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 38,
+            "top": 438.78125,
+            "right": 392,
+            "bottom": 480.78125,
+            "width": 354,
+            "height": 42
+          },
+          {
+            "left": 608,
+            "top": 362,
+            "right": 962,
+            "bottom": 404,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1000x595 dual windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 13,
+          "top": 169,
+          "right": 987,
+          "bottom": 558
+        },
+        "windows": [
+          {
+            "left": 25,
+            "top": 217,
+            "right": 405,
+            "bottom": 493.78125,
+            "width": 380,
+            "height": 276.78125
+          },
+          {
+            "left": 595,
+            "top": 217,
+            "right": 975,
+            "bottom": 417,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 38,
+            "top": 438.78125,
+            "right": 392,
+            "bottom": 480.78125,
+            "width": 354,
+            "height": 42
+          },
+          {
+            "left": 608,
+            "top": 362,
+            "right": 962,
+            "bottom": 404,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "1000x595 two windows",
+      "passed": true
+    },
+    {
+      "name": "1000x595 dual windows do not overlap",
+      "passed": true,
+      "evidence": [
+        {
+          "x": 25,
+          "y": 217,
+          "right": 405,
+          "bottom": 493.78125
+        },
+        {
+          "x": 595,
+          "y": 217,
+          "right": 975,
+          "bottom": 417
+        }
+      ]
+    },
+    {
+      "name": "1000x595 menu option can be hit",
+      "passed": true,
+      "evidence": {
+        "x": 125,
+        "y": 327,
+        "width": 118,
+        "height": 32
+      }
+    },
+    {
+      "name": "1000x595 Escape retains windows",
+      "passed": true
+    },
+    {
+      "name": "1000x595 settings fits",
+      "passed": true,
+      "evidence": {
+        "x": 300,
+        "y": 61.75,
+        "width": 400,
+        "height": 471.5
+      }
+    },
+    {
+      "name": "676x595 ask page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 275,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 425.5,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 288,
+            "top": 370.5,
+            "right": 642,
+            "bottom": 412.5,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "676x595 ask windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 275,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 425.5,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 288,
+            "top": 370.5,
+            "right": 642,
+            "bottom": 412.5,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "676x595 toolbar fits",
+      "passed": true,
+      "evidence": {
+        "x": 25,
+        "y": 396.875,
+        "width": 210.59375,
+        "height": 38
+      }
+    },
+    {
+      "name": "676x595 overlay containers do not scroll",
+      "passed": true
+    },
+    {
+      "name": "676x595 history page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 275,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 420.5,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "676x595 history windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 275,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 420.5,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "676x595 single line history",
+      "passed": true
+    },
+    {
+      "name": "676x595 dual page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 225.5,
+            "right": 332,
+            "bottom": 524.671875,
+            "width": 311,
+            "height": 299.171875
+          },
+          {
+            "left": 344,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 425.5,
+            "width": 311,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 469.671875,
+            "right": 319,
+            "bottom": 511.671875,
+            "width": 285,
+            "height": 42
+          },
+          {
+            "left": 357,
+            "top": 370.5,
+            "right": 642,
+            "bottom": 412.5,
+            "width": 285,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "676x595 dual windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 225.5,
+            "right": 332,
+            "bottom": 524.671875,
+            "width": 311,
+            "height": 299.171875
+          },
+          {
+            "left": 344,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 425.5,
+            "width": 311,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 469.671875,
+            "right": 319,
+            "bottom": 511.671875,
+            "width": 285,
+            "height": 42
+          },
+          {
+            "left": 357,
+            "top": 370.5,
+            "right": 642,
+            "bottom": 412.5,
+            "width": 285,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "676x595 two windows",
+      "passed": true
+    },
+    {
+      "name": "676x595 dual windows do not overlap",
+      "passed": true,
+      "evidence": [
+        {
+          "x": 21,
+          "y": 225.5,
+          "right": 332,
+          "bottom": 524.671875
+        },
+        {
+          "x": 344,
+          "y": 225.5,
+          "right": 655,
+          "bottom": 425.5
+        }
+      ]
+    },
+    {
+      "name": "676x595 menu option can be hit",
+      "passed": true,
+      "evidence": {
+        "x": 121,
+        "y": 335.5,
+        "width": 118,
+        "height": 32
+      }
+    },
+    {
+      "name": "676x595 Escape retains windows",
+      "passed": true
+    },
+    {
+      "name": "676x595 settings fits",
+      "passed": true,
+      "evidence": {
+        "x": 138,
+        "y": 61.75,
+        "width": 400,
+        "height": 471.5
+      }
+    },
+    {
+      "name": "390x844 ask page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 381,
+          "bottom": 811
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 225.5,
+            "right": 369,
+            "bottom": 425.5,
+            "width": 348,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 370.5,
+            "right": 356,
+            "bottom": 412.5,
+            "width": 322,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "390x844 ask windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 381,
+          "bottom": 811
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 225.5,
+            "right": 369,
+            "bottom": 425.5,
+            "width": 348,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 370.5,
+            "right": 356,
+            "bottom": 412.5,
+            "width": 322,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "390x844 toolbar fits",
+      "passed": true,
+      "evidence": {
+        "x": 25,
+        "y": 422.0625,
+        "width": 210.59375,
+        "height": 38
+      }
+    },
+    {
+      "name": "390x844 overlay containers do not scroll",
+      "passed": true
+    },
+    {
+      "name": "390x844 history page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 381,
+          "bottom": 811
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 225.5,
+            "right": 369,
+            "bottom": 420.5,
+            "width": 348,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "390x844 history windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 381,
+          "bottom": 811
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 225.5,
+            "right": 369,
+            "bottom": 420.5,
+            "width": 348,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "390x844 single line history",
+      "passed": true
+    },
+    {
+      "name": "390x844 dual page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 381,
+          "bottom": 811
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 221.5,
+            "right": 369,
+            "bottom": 498.28125,
+            "width": 348,
+            "height": 276.78125
+          },
+          {
+            "left": 21,
+            "top": 514.25,
+            "right": 369,
+            "bottom": 714.25,
+            "width": 348,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 443.28125,
+            "right": 356,
+            "bottom": 485.28125,
+            "width": 322,
+            "height": 42
+          },
+          {
+            "left": 34,
+            "top": 659.25,
+            "right": 356,
+            "bottom": 701.25,
+            "width": 322,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "390x844 dual windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 381,
+          "bottom": 811
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 221.5,
+            "right": 369,
+            "bottom": 498.28125,
+            "width": 348,
+            "height": 276.78125
+          },
+          {
+            "left": 21,
+            "top": 514.25,
+            "right": 369,
+            "bottom": 714.25,
+            "width": 348,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 443.28125,
+            "right": 356,
+            "bottom": 485.28125,
+            "width": 322,
+            "height": 42
+          },
+          {
+            "left": 34,
+            "top": 659.25,
+            "right": 356,
+            "bottom": 701.25,
+            "width": 322,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "390x844 two windows",
+      "passed": true
+    },
+    {
+      "name": "390x844 dual windows do not overlap",
+      "passed": true,
+      "evidence": [
+        {
+          "x": 21,
+          "y": 221.5,
+          "right": 369,
+          "bottom": 498.28125
+        },
+        {
+          "x": 21,
+          "y": 514.25,
+          "right": 369,
+          "bottom": 714.25
+        }
+      ]
+    },
+    {
+      "name": "390x844 menu option can be hit",
+      "passed": true,
+      "evidence": {
+        "x": 121,
+        "y": 331.5,
+        "width": 118,
+        "height": 32
+      }
+    },
+    {
+      "name": "390x844 Escape retains windows",
+      "passed": true
+    },
+    {
+      "name": "390x844 settings fits",
+      "passed": true,
+      "evidence": {
+        "x": 17,
+        "y": 186.25,
+        "width": 356,
+        "height": 471.5
+      }
+    },
+    {
+      "name": "541x476 ask page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 154,
+          "right": 532,
+          "bottom": 467
+        },
+        "windows": [
+          {
+            "left": 140,
+            "top": 202,
+            "right": 520,
+            "bottom": 402,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 153,
+            "top": 347,
+            "right": 507,
+            "bottom": 389,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "541x476 ask windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 154,
+          "right": 532,
+          "bottom": 467
+        },
+        "windows": [
+          {
+            "left": 140,
+            "top": 202,
+            "right": 520,
+            "bottom": 402,
+            "width": 380,
+            "height": 200
+          }
+        ],
+        "inputs": [
+          {
+            "left": 153,
+            "top": 347,
+            "right": 507,
+            "bottom": 389,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "541x476 toolbar fits",
+      "passed": true,
+      "evidence": {
+        "x": 25,
+        "y": 358.375,
+        "width": 210.59375,
+        "height": 38
+      }
+    },
+    {
+      "name": "541x476 overlay containers do not scroll",
+      "passed": true
+    },
+    {
+      "name": "541x476 history page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 154,
+          "right": 532,
+          "bottom": 467
+        },
+        "windows": [
+          {
+            "left": 140,
+            "top": 202,
+            "right": 520,
+            "bottom": 397,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "541x476 history windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 154,
+          "right": 532,
+          "bottom": 467
+        },
+        "windows": [
+          {
+            "left": 140,
+            "top": 202,
+            "right": 520,
+            "bottom": 397,
+            "width": 380,
+            "height": 195
+          }
+        ],
+        "inputs": []
+      }
+    },
+    {
+      "name": "541x476 single line history",
+      "passed": true
+    },
+    {
+      "name": "541x476 dual page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 154,
+          "right": 532,
+          "bottom": 467
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 198,
+            "right": 520,
+            "bottom": 322.5,
+            "width": 499,
+            "height": 124.5
+          },
+          {
+            "left": 21,
+            "top": 330.5,
+            "right": 520,
+            "bottom": 455,
+            "width": 499,
+            "height": 124.5
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 267.5,
+            "right": 507,
+            "bottom": 309.5,
+            "width": 473,
+            "height": 42
+          },
+          {
+            "left": 34,
+            "top": 400,
+            "right": 507,
+            "bottom": 442,
+            "width": 473,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "541x476 dual windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 154,
+          "right": 532,
+          "bottom": 467
+        },
+        "windows": [
+          {
+            "left": 21,
+            "top": 198,
+            "right": 520,
+            "bottom": 322.5,
+            "width": 499,
+            "height": 124.5
+          },
+          {
+            "left": 21,
+            "top": 330.5,
+            "right": 520,
+            "bottom": 455,
+            "width": 499,
+            "height": 124.5
+          }
+        ],
+        "inputs": [
+          {
+            "left": 34,
+            "top": 267.5,
+            "right": 507,
+            "bottom": 309.5,
+            "width": 473,
+            "height": 42
+          },
+          {
+            "left": 34,
+            "top": 400,
+            "right": 507,
+            "bottom": 442,
+            "width": 473,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "541x476 two windows",
+      "passed": true
+    },
+    {
+      "name": "541x476 dual windows do not overlap",
+      "passed": true,
+      "evidence": [
+        {
+          "x": 21,
+          "y": 198,
+          "right": 520,
+          "bottom": 322.5
+        },
+        {
+          "x": 21,
+          "y": 330.5,
+          "right": 520,
+          "bottom": 455
+        }
+      ]
+    },
+    {
+      "name": "541x476 menu option can be hit",
+      "passed": true,
+      "evidence": {
+        "x": 121,
+        "y": 308,
+        "width": 118,
+        "height": 32
+      }
+    },
+    {
+      "name": "541x476 Escape retains windows",
+      "passed": true
+    },
+    {
+      "name": "541x476 settings fits",
+      "passed": true,
+      "evidence": {
+        "x": 70.5,
+        "y": 12,
+        "width": 400,
+        "height": 452
+      }
+    },
+    {
+      "name": "long quote and answer page fits",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 275,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 550,
+            "width": 380,
+            "height": 324.5
+          }
+        ],
+        "inputs": [
+          {
+            "left": 288,
+            "top": 495,
+            "right": 642,
+            "bottom": 537,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "long quote and answer windows and composers contained",
+      "passed": true,
+      "evidence": {
+        "overflow": false,
+        "stage": {
+          "left": 9,
+          "top": 177.5,
+          "right": 667,
+          "bottom": 562
+        },
+        "windows": [
+          {
+            "left": 275,
+            "top": 225.5,
+            "right": 655,
+            "bottom": 550,
+            "width": 380,
+            "height": 324.5
+          }
+        ],
+        "inputs": [
+          {
+            "left": 288,
+            "top": 495,
+            "right": 642,
+            "bottom": 537,
+            "width": 354,
+            "height": 42
+          }
+        ]
+      }
+    },
+    {
+      "name": "long content scrolls inside body",
+      "passed": true
+    },
+    {
+      "name": "composer remains clickable",
+      "passed": true
+    },
+    {
+      "name": "switching preserves background generation",
+      "passed": true
+    },
+    {
+      "name": "stop isolates current conversation",
+      "passed": true
+    },
+    {
+      "name": "stop preserves draft",
+      "passed": true
+    },
+    {
+      "name": "history has no task status",
+      "passed": true
+    },
+    {
+      "name": "keyboard enters language menu",
+      "passed": true
+    },
+    {
+      "name": "keyboard selection starts translation",
+      "passed": true
+    },
+    {
+      "name": "same language does not regenerate",
+      "passed": true
+    },
+    {
+      "name": "translation actions retain accessible names",
+      "passed": true
+    },
+    {
+      "name": "no browser exceptions",
+      "passed": true,
+      "evidence": []
+    }
+  ],
+  "metrics": {
+    ".window-title": {
+      "font": "13px",
+      "lineHeight": "19.5px"
+    },
+    ".quote": {
+      "font": "12px",
+      "lineHeight": "18px"
+    },
+    ".assistant-text": {
+      "font": "14px",
+      "lineHeight": "22.4px"
+    },
+    ".composer textarea": {
+      "font": "13px",
+      "lineHeight": "20px"
+    },
+    ".language-picker summary": {
+      "font": "12px",
+      "lineHeight": "18px"
+    }
+  }
+}

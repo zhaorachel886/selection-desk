@@ -1,11 +1,9 @@
 node_modules/
 dist/
 release/
-.cache/
-.local/
+.runtime/
+tests/.tmp/
+coverage/
 *.log
 .env*
-coverage/
-划词助手-需求与工具调研.md
-selection-desk-*.json
-selection-desk-*.toml
+!.env.example

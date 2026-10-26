@@ -1,8 +1,0 @@
-# Use Settings > Export Codex for an exact configuration for your installation.
-[mcp_servers.selection_desk]
-command = "C:\\path\\to\\Selection Desk.exe"
-args = ["C:\\path\\to\\resources\\app.asar\\dist\\bridge\\cli.cjs"]
-
-[mcp_servers.selection_desk.env]
-ELECTRON_RUN_AS_NODE = "1"
-SELECTION_DESK_TOKEN = "<CLIENT_TOKEN>"

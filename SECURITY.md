@@ -1,18 +1,11 @@
-# Security and privacy
+# 安全与隐私
 
-Selection Desk is alpha software. Its local service listens on `127.0.0.1:18765`; it is intended for the same machine and must not be exposed through a proxy or port forward.
+拾句为 Windows Alpha 试用软件。
 
-## Data boundaries
+- 用户发起翻译、快捷指令或自定义问题后，选中文字、问题及必要的同一问答上下文发送至所选模型来源。API 服务地址由使用者配置，请使用可信来源。
+- Codex 使用本机已有登录；API Key 使用 Electron safeStorage 在 Windows 本地加密，仅主进程持有明文。系统同一用户身份下的恶意程序不属于该加密的隔离边界。
+- 问答记录与设置保存在 `%APPDATA%\划词助手`，独立问答最多 100 条。退出、卸载和更名不自动删除已有记录。
+- 程序使用原生取词与剪贴板回退；问 AI 打开时不自动请求。发布包不包含用户配置、登录信息或问答。
+- 不向问题反馈、公开仓库或截图附加 Key、登录令牌和真实私密内容。用公开或合成文字复现问题。
 
-- Each MCP client has its own token. A token identifies the configured client; it is not a trusted identity attestation for all software on the machine.
-- `get_selection` requires confirmation for the named client and current request. Ordinary selections live in memory for 60 seconds. Fixed conversations can retain the text needed for that conversation in memory.
-- API keys and client tokens use Electron safeStorage. On Windows its DPAPI protection does not isolate secrets from applications running as the same user. See [Electron's platform security semantics](https://www.electronjs.org/docs/latest/api/safe-storage).
-- Exported connector files contain usable credentials in client-readable form. Keep them local and remove obsolete copies. Never attach them to an issue or commit them.
-- The app has no telemetry by default and does not intentionally save local transcripts. Text submitted to a model is subject to that provider's processing and retention policies. Clients receiving an approved selection have their own storage policies.
-- Automatic clipboard fallback is off by default until format-restoration compatibility is validated. Manual copy plus `Ctrl+Shift+Space` is available.
-
-## Reporting
-
-For ordinary bugs, provide a synthetic reproduction, app/Windows version and expected behavior. For a suspected security issue, use the repository's private vulnerability reporting facility if available. No dedicated security mailbox or guaranteed response time is established. If a private channel is unavailable, open a minimal issue asking for one, without exploit details, secrets or private text.
-
-If a real connector export is exposed, remove its client configuration and replace the affected local credential before reconnecting. If an API key is exposed, revoke it through the provider. Do not assume deleting a public message removes earlier copies.
+普通问题请提交可脱敏复现步骤。安全问题优先使用仓库的私密漏洞报告渠道；若不可用，请先提交最小问题请求私下联系，不附凭据或利用细节。

@@ -1,9 +1,16 @@
 import { build } from 'esbuild';
 import { mkdir, copyFile } from 'node:fs/promises';
-await mkdir('dist/renderer', { recursive: true });
-await build({ entryPoints: ['src/main/index.ts'], outfile: 'dist/main/index.cjs', bundle: true, platform: 'node', format: 'cjs', target: 'node22', external: ['electron', 'selection-hook'], sourcemap: true });
-await build({ entryPoints: ['src/main/preload.ts'], outfile: 'dist/main/preload.cjs', bundle: true, platform: 'node', format: 'cjs', target: 'node22', external: ['electron'] });
-await build({ entryPoints: ['src/bridge/index.ts'], outfile: 'dist/bridge/index.cjs', bundle: true, platform: 'node', format: 'cjs', target: 'node22' });
-await build({ entryPoints: ['src/bridge/cli.ts'], outfile: 'dist/bridge/cli.cjs', bundle: true, platform: 'node', format: 'cjs', target: 'node22' });
-await build({ entryPoints: ['src/renderer/index.tsx'], outfile: 'dist/renderer/app.js', bundle: true, platform: 'browser', format: 'iife', target: 'chrome130', minify: true, define: { 'process.env.NODE_ENV': '"production"' } });
-await copyFile('src/renderer/index.html', 'dist/renderer/index.html');
+import { join } from 'node:path';
+
+const root=process.cwd();
+await mkdir(join(root,'dist','main'),{recursive:true});
+await mkdir(join(root,'dist','renderer'),{recursive:true});
+await mkdir(join(root,'dist','assets'),{recursive:true});
+await copyFile(join(root,'assets','branding','shiju.png'),join(root,'dist','assets','shiju.png'));
+await build({entryPoints:[join(root,'src','main','index.ts')],outfile:join(root,'dist','main','index.cjs'),
+  platform:'node',format:'cjs',target:'node22',bundle:true,external:['electron','selection-hook'],logLevel:'warning'});
+await build({entryPoints:[join(root,'src','main','preload.ts')],outfile:join(root,'dist','main','preload.cjs'),
+  platform:'node',format:'cjs',target:'node22',bundle:true,external:['electron'],logLevel:'warning'});
+await build({entryPoints:[join(root,'src','renderer','index.tsx')],outfile:join(root,'dist','renderer','index.js'),
+  platform:'browser',format:'iife',target:'chrome140',bundle:true,logLevel:'warning'});
+await copyFile(join(root,'src','renderer','index.html'),join(root,'dist','renderer','index.html'));

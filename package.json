@@ -1,54 +1,49 @@
 {
   "name": "selection-desk",
-  "version": "0.1.0-alpha.1",
+  "version": "0.2.0-alpha.2",
   "private": true,
-  "description": "Local-first selection overlay with agent connectors",
-  "author": "Selection Desk contributors",
+  "author": "zhaorachel886",
   "license": "MIT",
+  "description": "拾句：Windows 划词翻译与 AI 助手",
   "main": "dist/main/index.cjs",
   "scripts": {
-    "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run --dir tests",
     "build": "node scripts/build.mjs",
-    "start": "npm run build && electron .",
-    "package": "npm run build && electron-builder --win nsis portable --x64",
-    "probe": "node scripts/probe.cjs",
-    "smoke": "node scripts/smoke.mjs",
-    "notices": "node scripts/notices.mjs",
-    "performance": "node scripts/performance.mjs",
-    "test:ui": "node tests/renderer-consent.mjs && node scripts/smoke.mjs"
+    "start": "npm run build && node scripts/start.mjs",
+    "package": "npm run build && electron-builder --win nsis portable --x64 --publish never",
+    "test:desktop": "node scripts/smoke.mjs",
+    "notices": "node scripts/notices.mjs"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.32.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "selection-hook": "2.1.2",
-    "zod": "^3.25.76"
+    "selection-hook": "2.1.2"
   },
   "devDependencies": {
-    "@types/node": "^24.0.0",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
-    "electron": "44.9.0",
-    "electron-builder": "^26.0.12",
-    "esbuild": "^0.25.10",
-    "playwright": "^1.56.0",
-    "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
+    "@types/node": "24.0.0",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
+    "electron": "45.0.0",
+    "electron-builder": "26.0.12",
+    "esbuild": "0.25.10",
+    "playwright": "1.56.0",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
   },
   "build": {
     "appId": "io.selectiondesk.desktop",
-    "productName": "Selection Desk",
+    "productName": "拾句",
     "directories": {
-      "output": "release"
+      "output": "release/0.2.0-alpha.2"
     },
     "files": [
       "dist/**/*",
       "package.json",
       "LICENSE",
-      "THIRD_PARTY_NOTICES.md"
+      "THIRD_PARTY_NOTICES.md",
+      "assets/licenses/**/*"
     ],
-    "electronDist": "node_modules/electron/dist",
     "asarUnpack": [
       "node_modules/selection-hook/**/*"
     ],
@@ -58,17 +53,21 @@
         "nsis",
         "portable"
       ],
-      "signAndEditExecutable": false
+      "icon": "assets/branding/shiju.ico",
+      "signAndEditExecutable": true
     },
     "nsis": {
-      "artifactName": "Selection-Desk-${version}-${arch}-setup.${ext}",
+      "artifactName": "拾句-Setup-${version}-${arch}.exe",
       "oneClick": false,
       "perMachine": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "shortcutName": "拾句",
+      "installerIcon": "assets/branding/shiju.ico",
+      "uninstallerIcon": "assets/branding/shiju.ico"
     },
     "portable": {
-      "artifactName": "Selection-Desk-${version}-${arch}-portable.${ext}"
-    },
-    "artifactName": "Selection-Desk-${version}-${arch}.${ext}"
+      "artifactName": "拾句-${version}-${arch}.exe"
+    }
   }
 }

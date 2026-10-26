@@ -1,53 +1,23 @@
 import { _electron as electron } from 'playwright';
-import { mkdir, writeFile, readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
-import assert from 'node:assert/strict';
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-await mkdir('.local', { recursive: true });
-const launchEnv = { ...process.env, SELECTION_DESK_DATA_DIR: resolve('.local/smoke-profile') };
-delete launchEnv.ELECTRON_RUN_AS_NODE;
-const executablePath = process.env.SELECTION_DESK_EXECUTABLE;
-const instance = await electron.launch({ ...(executablePath ? { executablePath } : {}), args: executablePath ? ['--settings'] : ['.', '--settings'], env: launchEnv, timeout: 30000 });
-const errors = [];
-try {
-  const page = await instance.firstWindow();
-  page.on('pageerror', error => errors.push(error.message));
-  await page.getByRole('heading', { name: '设置', exact: true }).waitFor();
-  const initial = await page.evaluate(() => window.desktop.getState());
-  assert.equal(initial.view, 'settings');
-  assert.equal(initial.settings.provider, 'codex');
-  assert.equal(initial.hasApiKey, false);
-  const forbidden = await page.evaluate(() => window.desktop.dispatch({ type: 'run-shell', command: 'never-execute' }));
-  assert.equal(forbidden.ok, false);
-  const saved = await page.evaluate(async () => { const state = await window.desktop.getState(); return window.desktop.dispatch({ type: 'save-settings', settings: { ...state.settings, targetLanguage: 'English' } }); });
-  assert.equal(saved.ok, true);
-  assert.equal((await page.evaluate(() => window.desktop.getState())).settings.targetLanguage, 'English');
-  await page.evaluate(async () => { const state = await window.desktop.getState(); return window.desktop.dispatch({ type: 'save-settings', settings: { ...state.settings, targetLanguage: '简体中文' } }); });
-  await page.screenshot({ path: '.local/settings-preview.png' });
-  const connectorPath = resolve('.local/smoke-connector.json');
-  await instance.evaluate(({ dialog }, filePath) => { dialog.showSaveDialog = async () => ({ canceled: false, filePath }); }, connectorPath);
-  const exported = await page.evaluate(() => window.desktop.dispatch({ type: 'export-connector', client: 'WorkBuddy', transport: 'stdio' }));
-  assert.equal(exported.ok, true);
-  const connector = JSON.parse(await readFile(connectorPath, 'utf8')).mcpServers.selection_desk;
-  const client = new Client({ name: 'smoke', version: '1' });
-  const transport = new StdioClientTransport({ ...connector, env: { ...launchEnv, ...connector.env }, stderr: 'pipe' });
-  transport.stderr?.on('data', chunk => process.stderr.write(chunk));
-  try {
-    await client.connect(transport);
-    assert.deepEqual((await client.listTools()).tools.map(t => t.name), ['get_selection']);
-    assert.equal((await client.callTool({ name: 'get_selection', arguments: {} })).isError, true);
-  } finally { await client.close(); }
-  const metrics = await instance.evaluate(({ app, BrowserWindow, safeStorage }) => ({ workingSetMB: Math.round(app.getAppMetrics().reduce((sum, p) => sum + p.memory.workingSetSize, 0) / 1024), windows: BrowserWindow.getAllWindows().length, encryptedStorage: safeStorage.isEncryptionAvailable() }));
-  assert.equal(metrics.windows, 1); assert.equal(metrics.encryptedStorage, true);
-  await Promise.all([page.waitForEvent('close'), page.evaluate(() => window.desktop.dispatch({ type: 'close' })).catch(() => {})]);
-  assert.equal(await instance.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length), 0);
-  const reopeningStarted = Date.now();
-  const [reopened] = await Promise.all([instance.waitForEvent('window'), instance.evaluate(({ app }) => app.emit('second-instance'))]);
-  await reopened.getByRole('heading', { name: '设置', exact: true }).waitFor();
-  assert.equal((await reopened.evaluate(() => window.desktop.getState())).view, 'settings');
-  assert.deepEqual(errors, []);
-  const report = { timestamp: new Date().toISOString(), packaged: !!executablePath, status: 'passed', checks: ['real Electron UI renders', 'preload IPC state', 'unknown action rejected', 'settings encrypted roundtrip', 'exported stdio connector with real Electron bridge handshake', 'bridge NO_SELECTION fails closed', 'single window', 'dismiss releases renderer and reopens', 'renderer no uncaught errors'], hookStatus: initial.hookStatus, metrics, reopenMs: Date.now() - reopeningStarted, note: 'This is a startup/reopen sample, not P95, five-minute idle or real-app compatibility acceptance.' };
-  await writeFile(executablePath ? '.local/packaged-smoke-result.json' : '.local/smoke-result.json', JSON.stringify(report, null, 2));
-  console.log(JSON.stringify(report, null, 2));
-} finally { await instance.close(); }
+import { mkdir } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root=join(dirname(fileURLToPath(import.meta.url)),'..');
+const dataDir=join(root,'.runtime','smoke-userdata');
+await mkdir(dataDir,{recursive:true});
+const env={...process.env,SELECTION_DESK_DATA_DIR:dataDir};delete env.ELECTRON_RUN_AS_NODE;
+const packaged=process.env.SELECTION_DESK_EXECUTABLE;
+const app=await electron.launch({executablePath:packaged||undefined,args:packaged?[]:['.'],cwd:root,timeout:30000,env});
+try{
+  const page=await app.firstWindow({timeout:15000});
+  await page.getByText('近期记录').first().waitFor({timeout:10000});
+  const state=await page.evaluate(()=>window.desk.getState());
+  if(state.view!=='history'||!Array.isArray(state.conversations))throw Error('Wrong initial desktop state');
+  console.log('Selection service:',state.selectionStatus);
+  await page.screenshot({path:join(root,'.runtime','smoke-history.png')});
+  await page.getByRole('button',{name:'设置'}).click();
+  await page.getByRole('heading',{name:'回答来源',exact:true}).waitFor({timeout:5000});
+  await page.screenshot({path:join(root,'.runtime','smoke-settings.png')});
+  console.log('Desktop smoke passed: history, IPC state, settings');
+}finally{await app.close()}

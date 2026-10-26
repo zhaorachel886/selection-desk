@@ -1,48 +1,28 @@
-# Selection Desk
+# 拾句（Windows 试用版）
 
-[English](README.en.md) · Windows 11 x64 · 0.1.0-alpha.1 · MIT
+<img src="assets/branding/shiju.png" width="96" alt="拾句图标">
 
-[下载测试版](https://github.com/zhaorachel886/selection-desk/releases) · [自动检查](https://github.com/zhaorachel886/selection-desk/actions)
+选中其他应用中的文字后，弹出「翻译｜问 AI｜复制」工具条。翻译直接请求所选来源；问 AI 先打开浮窗，输入问题或点击「解释」「润色」后才发送。浮窗可固定、调整大小、追问、停止、复制问题与回答；记录保留最近 100 次独立问答。
 
-选中文字，在桌面浮窗中翻译、自定义提问并流式追问。基于 Electron、TypeScript、React 和 selection-hook，默认中文与系统主题，支持拖动、调整大小和固定会话。
+## 试用
 
-**当前为 alpha 测试版。** 自动检查、打包和真实应用兼容性是不同的验收项，请查看 [验证记录](docs/validation.md)。企业微信主链路、五个工作日试用及干净 Windows 安装验收完成前，不作为稳定版发布。
+1. 初始来源为 Codex，需安装并登录 Codex CLI；也可在设置中选择「智谱／兼容 API」，自行填写 Key，地址和 glm-4-flash 已预填。可先测试公开短句，再保存设置。Key 使用 Windows 本机加密，不必发到聊天中。
+2. 从 [GitHub Releases](https://github.com/zhaorachel886/selection-desk/releases) 下载 `拾句-Setup-…-x64.exe` 安装版，或 `拾句-…-x64.exe` 免安装版。开发者可在项目目录执行 `npm ci`、`npm start`。旧的 0.2.0-alpha.1 本地包不包含本次更新。
+3. 在 Chrome、微信或 WPS 文字中选中文字，点击工具条。自动取词失败时，先复制文字，再按 `Control+Alt+D`；快捷键可在设置中修改。
+4. 通过托盘菜单可恢复最近问答、查看近期记录、打开设置或退出。
 
-## 开始使用
+本地问答与设置写入应用数据目录，不写入项目目录。临时窗收起后，已提交的回答继续在后台生成；退出整个程序才中断正在运行的任务。删除正在生成的记录会先提示并确认停止。
 
-1. 在 Windows 11 x64 上安装测试版，或运行 portable 版本。首次启动进入设置；保存设置后，再次启动驻留托盘。托盘可打开设置，也可使用 `--settings`；`--background` 支持后台启动。
-2. 默认使用 Codex；在设置中确认本机 Codex 可执行文件路径和登录状态，并检查连接。也可主动选择 OpenAI 兼容 API，填写地址、模型与密钥。程序不会自动切换来源或产生另一来源的消费。
-3. 在其他应用选中文字，使用浮窗中的翻译或问答。输入问题时才获取焦点；固定会话保留当前内容。
-4. 自动取词不可用时，手动复制文字，再按 `Ctrl+Shift+Space`。自动剪贴板兜底默认关闭，需完成剪贴板格式恢复兼容性验证后再评估启用。
+API 来源不自动回退到 Codex。测试回答不保存表单修改、不进入近期记录；真实可用性与速度需用户配置 Key 后验证，模拟服务检查不等同于智谱已接通或免费可用。
 
-当前不提供 OCR、语音、云同步或原文替换。开机自启默认关闭。
+## 开发与验证
 
-## 接入其他 agent
+`npm run typecheck` 检查类型，`npm test` 检查任务隔离、记录清理、数据恢复和命令校验，`npm run build` 构建开发版，`npm run test:desktop` 检查桌面启动，`node scripts/smoke-selection.mjs` 使用独立 Chrome 测试页检查真实鼠标划词，`npm run package` 构建便携版。
 
-在设置中选择 Codex、WorkBuddy 或千问办公，导出该客户端的连接配置。安装版支持 HTTP 和 stdio，单文件 portable 版支持 HTTP。每个客户端使用独立凭据；导出的真实配置只保留在本机。操作与占位示例见 [连接说明](docs/connectors.md)。
+当前自动检查覆盖任务与记录管理、API 流式协议、加密 Key 与设置边界；本机模拟 API 的隔离 Electron 检查覆盖实际分段显示、停止与重试。此前 Chrome 测试页划词到空白问 AI 浮窗已验证；隔离 Codex 适配器曾用公开文本取得真实回答，耗时仍有波动。用户已反馈其 GLM-4-Flash 配置可用且响应快，尚无量化测速。完整三应用回答链路、微信与 WPS 文字、安装与卸载流程仍需人工验收，本版本作为 Alpha 试用版发布。
 
-MCP 仅提供 `get_selection`。每次读取都需要用户确认指定客户端的本次请求，普通选区保留在内存中并在 60 秒后过期。Codex App Server 用于浮窗模型会话；WorkBuddy、千问办公反向对话尚未实现，取决于官方接口条件。
+Windows 安装包暂未进行代码签名，系统可能显示未知发布者提示。设置和近期记录保存在原有 `%APPDATA%\\划词助手` 目录，改名不会主动迁移或删除数据。API Key 需使用者自行配置，发布包不包含任何 Key 或 Codex 登录凭据。
 
-## 数据与安装
+`npm start` 运行当前源码的开发版。`node scripts/probe-codex.mjs` 是不经过 Electron 的独立探针，不读取 Windows 系统代理；使用代理的机器需给探针提供相同的 HTTPS_PROXY 环境。探针成功不能代替实际划词、点击及浮窗展示验收。
 
-默认无遥测，应用不主动持久化本地会话原文。发起模型请求会把相关选区与对话发送给所选服务，其保留规则以服务方政策为准。API 密钥与客户端 token 使用系统加密存储；同一 Windows 用户下运行的软件仍可能访问这些数据，见 [安全说明](SECURITY.md)。
-
-测试安装包暂未代码签名，Windows 可能显示未知发布者。请核对下载来源与构建提供的校验信息，再决定安装。安装版可通过 Windows 设置 → 应用 → 已安装的应用卸载。portable 版本退出后可删除可执行文件。卸载后检查本机导出的连接配置并从各客户端移除；配置和凭据的清理范围需按 [安装验收](docs/validation.md) 核实。
-
-## 本地开发
-
-使用 Windows x64、Node.js 22.12 或更新的兼容版本与 npm，在项目根目录依次执行：
-
-```powershell
-npm ci
-npm test
-npm run typecheck
-npm run build
-npm run package
-```
-
-运行开发构建使用 `npm start`。打包输出位于 `release/`，包含 NSIS 安装版与 portable 版本。构建依赖下载需要网络。CI 检查 PR；main 上的新版本通过全部检查后自动发布为 prerelease，已有同版本发布不覆盖。
-
-阅读 [架构](docs/architecture.md)、[贡献指南](CONTRIBUTING.md) 与 [MIT 许可](LICENSE)。
-
-测试包的第一次使用按 [首轮试用](docs/first-run.md) 操作；阶段完成情况见 [实施记录](docs/implementation.md)。
+产品规则与验收目标见 [`PRDS/PRD.md`](PRDS/PRD.md) 和 [`PRDS/plan.md`](PRDS/plan.md)。
