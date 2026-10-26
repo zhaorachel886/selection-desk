@@ -1,7 +1,16 @@
-name: Shiju 0.2.0-alpha.2 manual release
+name: Shiju manual alpha release
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Alpha version in package.json, e.g. 0.2.0-alpha.3'
+        required: true
+        type: string
+      publish:
+        description: 'Publish a new Alpha release after checks pass'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -10,12 +19,21 @@ jobs:
   windows:
     runs-on: windows-latest
     timeout-minutes: 30
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Confirm this release version
+      - name: Confirm the requested Alpha version
+        id: version
         shell: pwsh
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
         run: |
-          if ((Get-Content package.json -Raw | ConvertFrom-Json).version -ne '0.2.0-alpha.2') { throw 'This workflow is limited to 0.2.0-alpha.2' }
+          $packageVersion = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ($env:RELEASE_VERSION -notmatch '^\d+\.\d+\.\d+-alpha\.\d+$') { throw 'Only Alpha versions are supported' }
+          if ($packageVersion -ne $env:RELEASE_VERSION) { throw 'Requested version differs from package.json' }
+          if (!(Test-Path "docs/release-notes/$packageVersion.md")) { throw 'Missing version release notes' }
+          "version=$packageVersion" >> $env:GITHUB_OUTPUT
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -28,33 +46,24 @@ jobs:
       - run: npm run package
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      - name: Checksums
-        shell: pwsh
-        run: |
-          $releasePath = 'release/0.2.0-alpha.2'
-          $releaseHashes = Get-ChildItem $releasePath -File -Filter *.exe | Sort-Object Name | ForEach-Object {
-            $releaseHash = Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256
-            "$($releaseHash.Hash.ToLower())  $($_.Name)"
-          }
-          if (@($releaseHashes).Count -ne 2) { throw 'Expected installer and portable executable' }
-          Set-Content -LiteralPath (Join-Path $releasePath SHA256SUMS.txt) -Value $releaseHashes -Encoding utf8
+      - run: npm run release:checksums
       - uses: actions/upload-artifact@v4
         with:
           name: shiju-windows-x64-alpha
           path: |
-            release/0.2.0-alpha.2/*.exe
-            release/0.2.0-alpha.2/SHA256SUMS.txt
+            release/${{ steps.version.outputs.version }}/Shiju-*.exe
+            release/${{ steps.version.outputs.version }}/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 14
 
   release-alpha:
     needs: windows
-    if: github.ref == 'refs/heads/main'
+    if: inputs.publish && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     concurrency:
-      group: shiju-release-v0.2.0-alpha.2
+      group: shiju-release-${{ needs.windows.outputs.version }}
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
@@ -62,17 +71,20 @@ jobs:
         with:
           name: shiju-windows-x64-alpha
           path: release
-      - name: Publish this alpha
+      - name: Publish the requested Alpha
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ needs.windows.outputs.version }}
         run: |
           set -euo pipefail
-          if gh release view v0.2.0-alpha.2 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo 'Release already exists; keeping assets unchanged.'
+          tag="v$RELEASE_VERSION"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Release already exists; keeping assets unchanged.' >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          mapfile -t files < <(find release -type f \( -name '*.exe' -o -name 'SHA256SUMS.txt' \))
-          gh release create v0.2.0-alpha.2 "${files[@]}" \
+          bash scripts/check-release-tag.sh "$tag" "$GITHUB_SHA"
+          mapfile -t files < <(find release -type f \( -name 'Shiju-*.exe' -o -name 'SHA256SUMS.txt' \))
+          gh release create "$tag" "${files[@]}" \
             --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
-            --title '拾句 v0.2.0-alpha.2' --prerelease \
-            --notes-file docs/release-notes/0.2.0-alpha.2.md
+            --title "拾句 $tag" --prerelease \
+            --notes-file "docs/release-notes/$RELEASE_VERSION.md"

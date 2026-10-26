@@ -13,7 +13,8 @@
     "start": "npm run build && node scripts/start.mjs",
     "package": "npm run build && electron-builder --win nsis portable --x64 --publish never",
     "test:desktop": "node scripts/smoke.mjs",
-    "notices": "node scripts/notices.mjs"
+    "notices": "node scripts/notices.mjs",
+    "release:checksums": "node scripts/release-checksums.mjs"
   },
   "dependencies": {
     "react": "19.2.0",
@@ -35,7 +36,7 @@
     "appId": "io.selectiondesk.desktop",
     "productName": "拾句",
     "directories": {
-      "output": "release/0.2.0-alpha.2"
+      "output": "release/${version}"
     },
     "files": [
       "dist/**/*",
@@ -57,7 +58,7 @@
       "signAndEditExecutable": true
     },
     "nsis": {
-      "artifactName": "拾句-Setup-${version}-${arch}.exe",
+      "artifactName": "Shiju-Setup-${version}-${arch}.exe",
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
@@ -67,7 +68,7 @@
       "uninstallerIcon": "assets/branding/shiju.ico"
     },
     "portable": {
-      "artifactName": "拾句-${version}-${arch}.exe"
+      "artifactName": "Shiju-${version}-${arch}.exe"
     }
   }
 }

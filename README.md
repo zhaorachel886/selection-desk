@@ -7,7 +7,7 @@
 ## 试用
 
 1. 初始来源为 Codex，需安装并登录 Codex CLI；也可在设置中选择「智谱／兼容 API」，自行填写 Key，地址和 glm-4-flash 已预填。可先测试公开短句，再保存设置。Key 使用 Windows 本机加密，不必发到聊天中。
-2. 从 [GitHub Releases](https://github.com/zhaorachel886/selection-desk/releases) 下载 `拾句-Setup-…-x64.exe` 安装版，或 `拾句-…-x64.exe` 免安装版。开发者可在项目目录执行 `npm ci`、`npm start`。旧的 0.2.0-alpha.1 本地包不包含本次更新。
+2. 从 [GitHub Releases](https://github.com/zhaorachel886/selection-desk/releases) 下载文件名包含 `Setup` 的安装版，或另一份 `.exe` 免安装版。后续附件使用 `Shiju` 文件名前缀，程序内仍显示「拾句」。开发者可在项目目录执行 `npm ci`、`npm start`。旧的 0.2.0-alpha.1 本地包不包含本次更新。
 3. 在 Chrome、微信或 WPS 文字中选中文字，点击工具条。自动取词失败时，先复制文字，再按 `Control+Alt+D`；快捷键可在设置中修改。
 4. 通过托盘菜单可恢复最近问答、查看近期记录、打开设置或退出。
 
@@ -17,7 +17,9 @@ API 来源不自动回退到 Codex。测试回答不保存表单修改、不进�
 
 ## 开发与验证
 
-`npm run typecheck` 检查类型，`npm test` 检查任务隔离、记录清理、数据恢复和命令校验，`npm run build` 构建开发版，`npm run test:desktop` 检查桌面启动，`node scripts/smoke-selection.mjs` 使用独立 Chrome 测试页检查真实鼠标划词，`npm run package` 构建便携版。
+`npm run typecheck` 检查类型，`npm test` 检查任务隔离、记录清理、数据恢复和命令校验，`npm run build` 构建开发版，`npm run test:desktop` 检查桌面启动，`node scripts/smoke-selection.mjs` 使用独立 Chrome 测试页检查真实鼠标划词，`npm run package` 构建安装版与便携版，`npm run release:checksums` 核对附件名并生成校验清单。
+
+源码提交与正式分发分开，见 [开发与发布流程](docs/release-process.md)。GitHub 流程仅手动触发，默认不发布。
 
 当前自动检查覆盖任务与记录管理、API 流式协议、加密 Key 与设置边界；本机模拟 API 的隔离 Electron 检查覆盖实际分段显示、停止与重试。此前 Chrome 测试页划词到空白问 AI 浮窗已验证；隔离 Codex 适配器曾用公开文本取得真实回答，耗时仍有波动。用户已反馈其 GLM-4-Flash 配置可用且响应快，尚无量化测速。完整三应用回答链路、微信与 WPS 文字、安装与卸载流程仍需人工验收，本版本作为 Alpha 试用版发布。
 
