@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import type { AppCommand, AppSnapshot, CommandResult, Conversation, Preferences } from '../shared/types';
 import { DEFAULT_API_URL,DEFAULT_API_MODEL } from '../shared/types';
 import './styles.css';
+import {AnswerText} from './answer-text';
 
 type IconName = 'translate'|'spark'|'copy'|'pin'|'history'|'close'|'arrow'|'back'|'retry'|'edit'|'chevron'|'check'|'trash'|'settings';
 const paths:Record<IconName,string> = {
@@ -38,8 +39,10 @@ function LanguagePicker({conversation,send}:{conversation:Conversation;send:Send
  const [position,setPosition]=useState<{left:number;top:number}|null>(null);
  const trigger=useRef<HTMLButtonElement>(null),menu=useRef<HTMLDivElement>(null);
  const choices=['中文','英文'] as const;
+ const running=conversation.state==='running';
  const close=useCallback((focus=false)=>{setPosition(null);if(focus)trigger.current?.focus();},[]);
- const open=()=>{const box=trigger.current?.getBoundingClientRect();if(box)setPosition({left:Math.max(4,Math.min(box.left,innerWidth-132)),top:Math.max(4,Math.min(box.bottom+4,innerHeight-78))});};
+ const open=()=>{if(running)return;const box=trigger.current?.getBoundingClientRect();if(box)setPosition({left:Math.max(4,Math.min(box.left,innerWidth-132)),top:Math.max(4,Math.min(box.bottom+4,innerHeight-78))});};
+ useEffect(()=>{if(running)close();},[running,close]);
  useEffect(()=>{
   if(!position)return;
   menu.current?.querySelector<HTMLButtonElement>('[aria-checked="true"]')?.focus();
@@ -48,8 +51,8 @@ function LanguagePicker({conversation,send}:{conversation:Conversation;send:Send
   document.addEventListener('pointerdown',outside);window.addEventListener('resize',reposition);document.addEventListener('scroll',reposition,true);
   return()=>{document.removeEventListener('pointerdown',outside);window.removeEventListener('resize',reposition);document.removeEventListener('scroll',reposition,true);};
  },[position,close]);
- return <div className="language"><span>自动识别</span><span aria-hidden="true">→</span><button ref={trigger} className="language-trigger" aria-haspopup="menu" aria-expanded={!!position} onClick={()=>position?close():open()} onKeyDown={e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();open();}}}>{conversation.targetLanguage}<Icon name="chevron"/></button>
- {position&&createPortal(<div ref={menu} className="language-menu" role="menu" aria-label="目标语言" style={position} onKeyDown={e=>{
+ return <div className="language"><span>自动识别</span><span aria-hidden="true">→</span><button ref={trigger} className="language-trigger" disabled={running} title={running?'请先停止或等待完成后切换语言':undefined} aria-haspopup="menu" aria-expanded={!!position&&!running} onClick={()=>position?close():open()} onKeyDown={e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();open();}}}>{conversation.targetLanguage}<Icon name="chevron"/></button>
+ {position&&!running&&createPortal(<div ref={menu} className="language-menu" role="menu" aria-label="目标语言" style={position} onKeyDown={e=>{
   if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close(true);return;}
   const buttons=Array.from(menu.current?.querySelectorAll('button')??[]),index=buttons.indexOf(document.activeElement as HTMLButtonElement);
   if(['ArrowDown','ArrowUp','Home','End'].includes(e.key)){e.preventDefault();buttons[e.key==='Home'?0:e.key==='End'?buttons.length-1:(index+(e.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();}
@@ -83,7 +86,7 @@ function ConversationView({conversation,send}:{conversation:Conversation;send:Se
  {conversation.turns.length===0&&<div className="quick-actions"><button className="chip" onClick={()=>void send({type:'quick',conversationId:conversation.id,action:'explain'})}><Icon name="spark"/>解释</button><button className="chip" onClick={()=>void send({type:'quick',conversationId:conversation.id,action:'polish'})}><Icon name="edit"/>润色</button></div>}
  {conversation.turns.map((turn,index)=><section className="turn" key={turn.id} aria-label={`第 ${index+1} 次问答`}>
  {!!turn.question.trim()&&<div className="user-message"><span>{turn.question}</span><IconButton name="copy" label="复制问题" onClick={()=>void send({type:'copy-question',conversationId:conversation.id,turnId:turn.id})}/></div>}
- <div className={`assistant-text${turn.state==='running'?' streaming':''}`} aria-busy={turn.state==='running'} aria-label={turn.state==='running'&&!turn.answer?'正在生成':undefined}>{(turn.answer||'').split(/\n\s*\n/).map((paragraph,i)=><p key={i}>{paragraph}</p>)}</div>
+ <div className={`assistant-text${turn.state==='running'?' streaming':''}`} aria-busy={turn.state==='running'} aria-label={turn.state==='running'&&!turn.answer?'正在生成':undefined}><AnswerText text={turn.answer||''}/></div>
  {turn.state==='running'&&!turn.answer&&turn.progress?.includes('重连')&&<div className="detail-note" role="status">{turn.progress}</div>}
  {turn.state==='stopped'&&<div className="detail-note">已停止生成，已收到的内容已保留。</div>}
  {turn.state==='interrupted'&&<div className="error-box">上次生成因程序退出而中断，可重新生成。</div>}
@@ -132,6 +135,7 @@ function App() {
  const [snapshot,setSnapshot]=useState<AppSnapshot|null>(null),[notice,setNotice]=useState(''),[confirmation,setConfirmation]=useState<Confirmation|null>(null);
  const timer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined);
  const showNotice=useCallback((message:string)=>{clearTimeout(timer.current);setNotice(message);timer.current=setTimeout(()=>setNotice(''),6500);},[]);
+  useEffect(()=>{if(snapshot?.view==='toolbar'){clearTimeout(timer.current);setNotice('');}},[snapshot?.view,snapshot?.selection?.selectionId]);
  useEffect(()=>{
   if(!window.desk){showNotice('桌面连接不可用，请通过拾句启动。');return;}
   let received=false,live=true;
@@ -140,7 +144,7 @@ function App() {
   return()=>{live=false;unsubscribe();clearTimeout(timer.current);};
  },[showNotice]);
  const send=useCallback<Send>(async command=>{
-  try {const result=await window.desk.command(command);if(!result.ok)showNotice(result.message||'操作未完成，请重试。');else if(result.message)showNotice(result.message);else if(command.type==='copy-answer'||command.type==='copy-question'||command.type==='copy-original')showNotice('已复制');else if(command.type==='save-settings')showNotice('设置已保存');return result;}
+  try {const result=await window.desk.command(command);if(!result.ok)showNotice(result.message||'操作未完成，请重试。');else if(command.type==='copy-answer'||command.type==='copy-question'||command.type==='copy-original'){/* Successful copying stays silent. */}else if(result.message)showNotice(result.message);else if(command.type==='save-settings')showNotice('设置已保存');return result;}
   catch {const result={ok:false,message:'桌面连接中断，请重新启动拾句。'};showNotice(result.message);return result;}
  },[showNotice]);
  useEffect(()=>{const escape=(e:KeyboardEvent)=>{if(e.key==='Escape'&&!e.defaultPrevented&&!document.querySelector('[role="menu"]')&&!document.querySelector('dialog[open]'))void send({type:'close'});};window.addEventListener('keydown',escape);return()=>window.removeEventListener('keydown',escape);},[send]);

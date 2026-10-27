@@ -21,7 +21,15 @@ export class TaskManager {
     this.items.set(item.id,item);this.changed();return clone(item);
   }
   draft(id:string,text:string){const c=this.must(id);c.draft=text;this.changed()}
-  setLanguage(id:string,language:'中文'|'英文'){const c=this.must(id);c.targetLanguage=language;this.changed()}
+  setLanguage(id:string,language:'中文'|'英文'):Promise<void>{
+    if(this.closed)throw new Error('应用正在退出');
+    const c=this.must(id);
+    if(c.action!=='translate')throw new Error('仅翻译问答可切换目标语言');
+    if(c.targetLanguage===language)return Promise.resolve();
+    if(this.active.has(id))throw new Error('这条回答正在生成，请先停止或等待完成后切换语言');
+    c.targetLanguage=language;
+    return this.send(id,'','translate',c.turns.length>0);
+  }
   async send(id:string,question:string,action?:Action,retry=false):Promise<void>{
     if(this.closed)throw new Error('应用正在退出');
     const c=this.must(id);

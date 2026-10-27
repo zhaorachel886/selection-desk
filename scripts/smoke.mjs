@@ -10,7 +10,16 @@ const env={...process.env,SELECTION_DESK_DATA_DIR:dataDir};delete env.ELECTRON_R
 const packaged=process.env.SELECTION_DESK_EXECUTABLE;
 const app=await electron.launch({executablePath:packaged||undefined,args:packaged?[]:['.'],cwd:root,timeout:30000,env});
 try{
-  const page=await app.firstWindow({timeout:15000});
+  // The preloaded toolbar is a hidden window, not the startup history panel.
+  let page;
+  for(let attempt=0;attempt<60&&!page;attempt++){
+    for(const candidate of app.windows())try{
+      const state=await candidate.evaluate(()=>window.desk?.getState());
+      if(state?.view==='history'){const native=await app.browserWindow(candidate);if(await native.evaluate(window=>window.isVisible())){page=candidate;break}}
+    }catch{}
+    if(!page)await new Promise(resolve=>setTimeout(resolve,250));
+  }
+  if(!page)throw Error('Visible startup history panel did not appear');
   await page.getByText('近期记录').first().waitFor({timeout:10000});
   const state=await page.evaluate(()=>window.desk.getState());
   if(state.view!=='history'||!Array.isArray(state.conversations))throw Error('Wrong initial desktop state');

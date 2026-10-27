@@ -24,6 +24,47 @@ function record(index:number):Conversation {
 }
 
 describe('independent conversation tasks',()=>{
+  it('retranslates in the same record with the new language and ignores old output',async()=>{
+    const {manager,provider}=fixture();const c=manager.create(selection,'translate','中文');
+    const first=manager.send(c.id,'','translate');provider.event(0,'delta','旧译文');provider.calls[0].resolve();await first;
+    manager.draft(c.id,'保留追问草稿');const previousTime=manager.get(c.id)!.updatedAt;
+    const background=manager.create(selection,'ask','中文');const pendingBackground=manager.send(background.id,'后台问题');
+    const switched=manager.setLanguage(c.id,'英文');
+    expect(provider.calls).toHaveLength(3);
+    expect(provider.calls[2].request).toMatchObject({conversationId:c.id,action:'translate',targetLanguage:'英文',question:'',history:[]});
+    expect(provider.calls[2].request.requestId).not.toBe(provider.calls[0].request.requestId);
+    expect(manager.get(c.id)).toMatchObject({state:'running',targetLanguage:'英文',draft:'保留追问草稿',turns:[{answer:''}]});
+    expect(manager.get(c.id)!.updatedAt).toBeGreaterThan(previousTime);
+    expect(provider.calls[1].signal.aborted).toBe(false);
+    provider.event(0,'delta','迟到旧内容');provider.event(0,'completed');
+    expect(manager.get(c.id)?.state).toBe('running');
+    provider.event(2,'delta','New translation');provider.calls[2].resolve();await switched;
+    provider.event(1,'delta','后台回答');provider.calls[1].resolve();await pendingBackground;
+    expect(manager.get(c.id)?.turns).toHaveLength(1);
+    expect(manager.get(c.id)?.turns[0].answer).toBe('New translation');
+    expect(manager.list().filter(item=>item.turns.length)).toHaveLength(2);
+    expect(manager.get(background.id)?.turns[0].answer).toBe('后台回答');
+  });
+  it('does not request or reorder when choosing the current translation language',async()=>{
+    const {manager,provider}=fixture();const c=manager.create(selection,'translate','中文');
+    const first=manager.send(c.id,'','translate');provider.event(0,'delta','译文');provider.calls[0].resolve();await first;
+    const before=manager.get(c.id);await manager.setLanguage(c.id,'中文');
+    expect(provider.calls).toHaveLength(1);expect(manager.get(c.id)).toEqual(before);
+  });
+  it('rejects language changes while generating without changing or aborting the request',async()=>{
+    const {manager,provider}=fixture();const c=manager.create(selection,'translate','中文');
+    const pending=manager.send(c.id,'','translate');provider.event(0,'delta','部分译文');
+    expect(()=>manager.setLanguage(c.id,'英文')).toThrow(/正在/);
+    expect(manager.get(c.id)).toMatchObject({targetLanguage:'中文',turns:[{answer:'部分译文'}]});
+    expect(provider.calls).toHaveLength(1);expect(provider.calls[0].signal.aborted).toBe(false);
+    manager.stop(c.id);provider.calls[0].resolve();await pending;
+    const switched=manager.setLanguage(c.id,'英文');expect(provider.calls[1].request.targetLanguage).toBe('英文');
+    provider.calls[1].reject(Error('API_TIMEOUT'));await switched;
+    expect(manager.get(c.id)).toMatchObject({state:'error',targetLanguage:'英文'});
+    const retried=manager.send(c.id,'',undefined,true);
+    expect(provider.calls[2].request).toMatchObject({action:'translate',targetLanguage:'英文'});
+    provider.calls[2].resolve();await retried;expect(manager.get(c.id)?.turns).toHaveLength(1);
+  });
   it('treats a custom followup after translation as a question instead of repeating the translation',async()=>{
     const {manager,provider}=fixture();const c=manager.create(selection,'translate','中文');
     const first=manager.send(c.id,'','translate');provider.event(0,'delta','译文');provider.calls[0].resolve();await first;
@@ -68,7 +109,8 @@ describe('independent conversation tasks',()=>{
   });
   it('snapshots request inputs, retains drafts and rejects duplicate sends',async()=>{
     const {manager,provider}=fixture();const c=manager.create(selection,'ask','中文');manager.draft(c.id,'first');
-    const pending=manager.send(c.id,'first','explain');manager.draft(c.id,'next');manager.setLanguage(c.id,'英文');
+    const pending=manager.send(c.id,'first','explain');manager.draft(c.id,'next');
+    expect(()=>manager.setLanguage(c.id,'英文')).toThrow();
     await expect(manager.send(c.id,'duplicate')).rejects.toThrow(/正在/);
     expect(provider.calls[0].request).toMatchObject({action:'explain',targetLanguage:'中文',question:'first'});
     provider.event(0,'delta','answer');provider.event(0,'completed');provider.calls[0].resolve();await pending;

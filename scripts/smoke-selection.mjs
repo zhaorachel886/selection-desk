@@ -28,7 +28,7 @@ try{
   let toolbar;
   for(let i=0;i<40;i++){
     for(const candidate of desktop.windows()){
-      try{const state=await candidate.evaluate(()=>window.desk?.getState());if(state?.view==='toolbar'&&state.selection?.text){toolbar=candidate;break}}catch{}
+      try{const state=await candidate.evaluate(()=>window.desk?.getState());if(state?.view==='toolbar'&&state.selection?.text){const native=await desktop.browserWindow(candidate);if(await native.evaluate(window=>window.isVisible())){toolbar=candidate;break}}}catch{}
     }
     if(toolbar)break;await new Promise(resolve=>setTimeout(resolve,250));
   }
