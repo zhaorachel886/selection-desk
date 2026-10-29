@@ -1,12 +1,12 @@
 # 拾句：技术方案
 
-日期：2026-10-22；状态：方案已确认，实际链路待开发验证。
+状态：当前架构说明；真实应用与模型验收边界见 plan.md。
 
 ## 技术组成
 
 采用 Electron + React + TypeScript 构建 Windows 桌面工具。主进程管理取词、窗口、任务和本机记录；渲染界面通过受限 preload 接口发起明确操作，不直接访问文件或凭据。
 
-原生取词优先评估旧版 selection-hook 模块，分别验证 Chrome、微信和 WPS 文字。自动取词失败保留用户主动复制后按快捷键调用的备用入口。模块与依赖的最终版本在实际验证后锁定。
+原生取词使用 selection-hook，具体版本以 package.json 和锁文件为准；分别验证 Chrome、微信和 WPS 文字。自动取词失败保留用户主动复制后按快捷键调用的备用入口。
 
 选区定位按 selection-hook 的 posLevel 判断坐标来源：有效且非退化的文字边界优先，仅有鼠标坐标时使用事件捕获的 mousePosEnd，最后才使用当前鼠标位置。原生物理坐标转为 DIP 一次；当前鼠标 DIP 不重复转换。不能将鼠标级事件中默认的文字边界 (0,0) 当作选区位置，也不能一概拒绝多屏环境中合法的零坐标或负坐标。
 
@@ -15,6 +15,8 @@
 工具条启动时隐藏预加载，后续划词重复使用该窗口；外部点击、复制、关闭或打开问答只隐藏工具条。页面加载完成与首次绘制通知均可建立就绪状态，不能只依赖隐藏透明窗口的首次绘制事件；共用窗口身份、是否仍需显示及去重保护。页面崩溃后下次划词重新创建。该策略去除反复加载页面的开销，不代表原生取词或三应用显示时延已达到某一数值。
 
 Codex 使用本机 App Server。复用已有连接方式前检查握手、流式事件、停止、异常与临时问答行为。可选智谱／OpenAI 兼容 API 通过主进程 Electron session.fetch 发起 chat/completions 流式请求，沿用 Electron 系统网络路由；不增加其他 Agent 接入。
+
+任务规范在 src/providers/instructions.ts 统一，API 作为 system 消息传入，Codex 在请求中明确 selection、history、question 的角色；后续提问默认按 ask 处理并带当前问答上下文。前端使用 react-markdown 渲染基础 Markdown，跳过 HTML，将链接与图片显示为文字，不加载外部内容；不加入额外打字机延时。
 
 ProviderRouter 在每次请求开始时选择来源并冻结该请求的 API 地址、模型与 Key；在途请求不随设置变化切换，也不自动回退到另一服务。API 分帧解析 SSE 与 UTF-8，处理 [DONE] 或 stop 终态、空回答、断流、HTTP 错误、超时和 AbortSignal。Key 用 safeStorage 单独加密写入 model-key.enc，普通 preferences.json 和历史不含 Key；界面仅获得 hasApiKey。测试回答使用固定公开短句，不写历史、不保存设置。
 

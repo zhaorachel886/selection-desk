@@ -3,6 +3,7 @@ dist/
 release/
 .runtime/
 .local-archive/
+notes/
 demo/*.png
 assets/branding/jupang-concept-v1.png
 tests/.tmp/
